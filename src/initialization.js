@@ -8,7 +8,6 @@ var initialization = {
         clientScript.async = true;
         clientScript.src = 'https://cdn.aggle.net/oir/oir.min.js';
         clientScript.setAttribute('oirtyp',forwarderSettings.type);
-        console.log(forwarderSettings.apiKey);
         clientScript.setAttribute('oirid', forwarderSettings.integrationId);
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(clientScript);
 
