@@ -118,7 +118,9 @@ var OpensendKit = (function (exports) {
                 var currentUser = window.mParticle.Identity.getCurrentUser();
                 if (currentUser) {
                     var userIdentities = currentUser.getUserIdentities();
-                    if (window._oirtrk && currentUser.getMPID() && userIdentities && ! userIdentities.email) {
+                    if (currentUser.getMPID() && userIdentities && ! userIdentities.email) {
+                        var oir = window._oirtrk || [];
+                        window._oirtrk = oir;
                         window._oirtrk.push(['track', 'on-site', {MPID: currentUser.getMPID()}]);
                     }
                 }
@@ -188,15 +190,13 @@ var OpensendKit = (function (exports) {
     var initialization = {
         name: 'Opensend',
         initForwarder: function(forwarderSettings, testMode, userAttributes, userIdentities, processEvent, eventQueue, isInitialized, common, appVersion, appName, customFlags, clientId) {
-            var oir = window._oirtrk || [];
-            window._oirtrk = oir;
             var clientScript = document.createElement('script');
             clientScript.type = 'text/javascript';
             clientScript.async = true;
             clientScript.src = 'https://cdn.aggle.net/oir/oir.min.js';
-            clientScript.setAttribute('oirtyp',forwarderSettings.osType);
+            clientScript.setAttribute('oirtyp',forwarderSettings.type);
             console.log(forwarderSettings.apiKey);
-            clientScript.setAttribute('oirid', forwarderSettings.apiKey);
+            clientScript.setAttribute('oirid', forwarderSettings.integrationId);
             (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(clientScript);
 
             helpers_1.fireTraffic();

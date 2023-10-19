@@ -4,7 +4,9 @@ var helpers = {
             var currentUser = window.mParticle.Identity.getCurrentUser();
             if (currentUser) {
                 var userIdentities = currentUser.getUserIdentities();
-                if (window._oirtrk && currentUser.getMPID() && userIdentities && ! userIdentities.email) {
+                if (currentUser.getMPID() && userIdentities && ! userIdentities.email) {
+                    var oir = window._oirtrk || [];
+                    window._oirtrk = oir;
                     window._oirtrk.push(['track', 'on-site', {MPID: currentUser.getMPID()}]);
                 }
             }
